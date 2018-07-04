@@ -1,0 +1,43 @@
+<html>
+   <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.5/svg.min.js"></script>
+      <script>
+        function getStarted() {
+         var draw = SVG('drawing').size(300, 300);
+         var posx = 0;
+         for (var k = 0; k < 10; k++) {
+           let name = k.toString();
+           let text = draw.text(name);
+           text.move(posx, 0);
+           box = text.bbox();
+           posx += box.width * 1.1;
+           var box = draw.rect(box.width, box.height).move(box.x, box.y).fill('#f06').opacity(0.5);
+           box.mouseover(function() {
+             console.log("box visited " + name);
+             this.fill({
+               color: '#ff'
+             });
+             document.getElementById("code").textContent = draw.svg();
+           })
+           box.mouseout(function() {
+             console.log("box left " + name);
+             this.fill({
+               color: '#f06'
+             });
+           })
+         }
+         document.getElementById('link').onclick = function(code) {
+          this.href = 'data:image/svg;charset=utf-8,'
+          + encodeURIComponent(draw.svg());
+         };
+        }
+      </script>
+   </head>
+   <body  onload="getStarted();">
+      Try moving your mouse over these digits (they are drawn using SVG):
+      <div id="drawing"></div>
+
+      <a href="" id="link" download="code.svg">Download SVG image</a>
+
+   </body>
+</html>
